@@ -1,69 +1,120 @@
 # FishGuard – Intelligent Fish Disease Prediction System
 
-FishGuard is an AI-powered fish disease detection and diagnosis system developed using Deep Learning, Computer Vision, FastAPI, ReactJS, YOLOv8 and Grad-CAM visualization.
+FishGuard is an AI-powered fish disease diagnosis platform that automatically detects fish diseases from uploaded images using Deep Learning and Computer Vision techniques. The system validates fish images, detects fish regions using YOLOv8, classifies diseases using a custom ResNet50-based architecture, and visualizes infected areas through Grad-CAM explainable AI.
 
-The system automatically detects fish from uploaded images, classifies fish diseases, highlights infected regions using Grad-CAM, and provides confidence scores with top predictions.
+The project provides an end-to-end solution consisting of a ReactJS frontend, FastAPI backend, YOLO object detection, custom deep learning classifier, and Grad-CAM visualization.
 
 ---
 
 ## Features
 
 - Fish Image Validation using ImageNet-pretrained ResNet18
-- Fish Detection using YOLOv8
-- Fish Disease Classification using Custom ResNet50 + Channel Attention + OSELM Architecture
-- Grad-CAM Disease Visualization
+- Fish Detection and Cropping using YOLOv8
+- Fish Disease Classification using Custom Deep Learning Architecture
+- Channel Attention Mechanism for Improved Feature Learning
+- OSELM-based Classification Layer
+- Grad-CAM Explainable AI Visualization
 - Infected Area Localization
-- Top-3 Disease Predictions
-- Healthy Fish Detection
+- Healthy Fish Identification
 - Non-Fish Image Rejection
-- ReactJS Interactive Frontend
-- FastAPI Backend API
+- Top-3 Disease Prediction Results
+- Confidence Score Estimation
+- Modern ReactJS User Interface
+- FastAPI REST API Backend
 
 ---
 
-## System Architecture
+## Problem Statement
 
+Fish diseases significantly impact aquaculture productivity and profitability. Manual diagnosis requires expert knowledge and can be time-consuming.
+
+FishGuard addresses this challenge by providing an automated disease detection system capable of:
+
+- Identifying common fish diseases
+- Highlighting disease-affected regions
+- Providing confidence-based predictions
+- Assisting aquaculture professionals with faster diagnosis
+
+---
+
+## System Workflow
+
+```text
 Input Fish Image
-↓
-Fish Validation (ResNet18)
-↓
-Fish Detection (YOLOv8)
-↓
+        │
+        ▼
+Fish Validation
+(ResNet18)
+        │
+        ▼
+Fish Detection
+(YOLOv8)
+        │
+        ▼
 Fish Cropping
-↓
-Disease Classification Model
-↓
+        │
+        ▼
+Disease Classification
+(Custom ResNet50 + Attention + OSELM)
+        │
+        ▼
 Grad-CAM Generation
-↓
-Infected Area Detection
-↓
+        │
+        ▼
+Infected Area Localization
+        │
+        ▼
 Prediction Results
+```
 
 ---
 
-## Technologies Used
+## Model Architecture
 
-### Frontend
-- ReactJS
-- Axios
-- CSS3
+### Feature Extraction
 
-### Backend
-- FastAPI
-- Python
+The feature extraction module is based on:
 
-### Deep Learning
-- PyTorch
-- Torchvision
-- TIMM
-- YOLOv8 (Ultralytics)
+- ResNet50 Backbone
+- Multi-Layer Feature Fusion
+- Channel Attention Mechanism
+- Adaptive Average Pooling
 
-### Computer Vision
-- OpenCV
-- PIL
+### Classification Module
 
-### Explainable AI
-- Grad-CAM
+The classifier uses:
+
+- OSELM (Online Sequential Extreme Learning Machine)
+- Hidden Layer Size: 1024
+- Output Layer: 7 Classes
+
+### Architecture Pipeline
+
+```text
+Input Image
+     │
+     ▼
+ResNet50 Backbone
+     │
+     ├── Layer2 Features
+     ├── Layer3 Features
+     └── Layer4 Features
+              │
+              ▼
+      Channel Attention
+              │
+              ▼
+Feature Fusion
+              │
+              ▼
+Adaptive Pooling
+              │
+              ▼
+OSELM Classifier
+              │
+              ▼
+Disease Prediction
+```
 
 ---
 
@@ -78,42 +129,39 @@ MAJORPROJECT
 │
 ├── frontend
 │   ├── public
+│   │   └── index.html
+│   │
 │   ├── src
 │   │   ├── components
+│   │   │   ├── controlpanel.js
+│   │   │   ├── resultpanel.js
+│   │   │   └── uploadpanel.js
+│   │   │
 │   │   ├── App.js
 │   │   ├── App.css
 │   │   └── index.js
 │   │
 │   ├── package.json
-│   └── README.md
+│   └── package-lock.json
+│
+├── data
+│   └── fishdiseasedataset
+│       ├── Train
+│       └── Test
 │
 ├── model_definition.py
 ├── train.py
 ├── predict.py
 ├── fish_disease_model.pth
-├── data/
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-## Custom Model Architecture
+## Disease Classes
 
-### Feature Extraction
-
-- ResNet50 Backbone
-- Multi-layer Feature Fusion
-- Channel Attention Mechanism
-
-### Classification
-
-- OSELM Classifier
-- 1024 Hidden Neurons
-- 7 Fish Disease Classes
-
----
-
-## Supported Classes
+The model supports classification of the following disease categories:
 
 1. Bacterial Red Disease
 2. Bacterial Diseases – Aeromoniasis
@@ -125,17 +173,66 @@ MAJORPROJECT
 
 ---
 
+## Technologies Used
+
+### Frontend
+
+- ReactJS
+- Axios
+- HTML5
+- CSS3
+
+### Backend
+
+- FastAPI
+- Python
+
+### Deep Learning
+
+- PyTorch
+- Torchvision
+- TIMM
+
+### Computer Vision
+
+- OpenCV
+- Pillow (PIL)
+- NumPy
+
+### Object Detection
+
+- YOLOv8 (Ultralytics)
+
+### Explainable AI
+
+- Grad-CAM
+
+---
+
 ## Dataset
 
-Dataset contains fish images categorized into seven disease classes.
-
-Directory Structure:
+The model is trained on a fish disease dataset organized as:
 
 ```text
-data/
-└── fishdiseasedataset/
-    ├── Train/
-    └── Test/
+fishdiseasedataset
+│
+├── Train
+│   ├── Bacterial Red disease
+│   ├── Bacterial diseases - Aeromoniasis
+│   ├── Bacterial gill disease
+│   ├── Fungal diseases Saprolegniasis
+│   ├── Healthy Fish
+│   ├── Parasitic diseases
+│   └── Viral diseases White tail disease
+│
+└── Test
+    ├── Bacterial Red disease
+    ├── Bacterial diseases - Aeromoniasis
+    ├── Bacterial gill disease
+    ├── Fungal diseases Saprolegniasis
+    ├── Healthy Fish
+    ├── Parasitic diseases
+    └── Viral diseases White tail disease
 ```
 
 ---
@@ -149,49 +246,65 @@ git clone https://github.com/yourusername/FishGuard.git
 cd FishGuard
 ```
 
+---
+
 ### Create Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-### Activate Virtual Environment
+---
 
-Windows
+### Activate Environment
+
+#### Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
-Linux / Mac
+#### Linux / MacOS
 
 ```bash
 source venv/bin/activate
 ```
 
-### Install Dependencies
+---
+
+### Install Python Dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install fastapi
+pip install uvicorn
+pip install torch torchvision
+pip install opencv-python
+pip install pillow
+pip install numpy
+pip install timm
+pip install ultralytics
+pip install python-multipart
+pip install scikit-learn
+pip install matplotlib
 ```
 
 ---
 
-## Running Backend
+## Running the Backend
 
-Move to backend folder:
+Navigate to backend directory:
 
 ```bash
 cd backend
 ```
 
-Run FastAPI:
+Start FastAPI server:
 
 ```bash
 uvicorn main:app --reload
 ```
 
-Backend URL:
+Backend API:
 
 ```text
 http://127.0.0.1:8000
@@ -199,9 +312,9 @@ http://127.0.0.1:8000
 
 ---
 
-## Running Frontend
+## Running the Frontend
 
-Move to frontend folder:
+Navigate to frontend directory:
 
 ```bash
 cd frontend
@@ -213,7 +326,7 @@ Install packages:
 npm install
 ```
 
-Start React Application:
+Start React application:
 
 ```bash
 npm start
@@ -227,64 +340,137 @@ http://localhost:3000
 
 ---
 
-## API Endpoint
+## 🔌 API Endpoint
 
-### POST
+### Predict Fish Disease
+
+#### Request
 
 ```http
 POST /predict
 ```
 
-### Input
+#### Input
 
 Multipart Image File
 
-### Output
+#### Response
 
 ```json
 {
-    "predicted_class":"Healthy Fish",
-    "confidence":98.52,
-    "image":"base64",
-    "gradcam":"base64",
-    "infected":"base64",
-    "top3":[]
+	"predicted_class":"Healthy Fish",
+	"confidence":98.52,
+	"image":"base64_string",
+	"gradcam":"base64_string",
+	"infected":"base64_string",
+	"top3":[
+		["Healthy Fish",98.52],
+		["Parasitic diseases",0.95],
+		["Bacterial gill disease",0.53]
+	]
 }
 ```
 
 ---
 
-## Explainable AI
+## Grad-CAM Visualization
 
-Grad-CAM is used to visualize the important disease regions responsible for prediction.
+The system generates explainable AI outputs:
 
-The system generates:
+### Original Image
 
-- Original Fish Image
-- Grad-CAM Heatmap
-- Infected Region Bounding Box
+Displays the uploaded fish image.
+
+### Grad-CAM Heatmap
+
+Highlights image regions contributing to disease prediction.
+
+### Infected Area Detection
+
+Draws a bounding box around the most probable infected region.
+
+---
+
+## Training Configuration
+
+| Parameter | Value |
+|------------|--------|
+| Backbone | ResNet50 |
+| Attention | Channel Attention |
+| Classifier | OSELM |
+| Optimizer | Adam |
+| Learning Rate | 0.0001 |
+| Batch Size | 16 |
+| Epochs | 20 |
+| Image Size | 224 × 224 |
+
+---
+
+## Model Validation Pipeline
+
+Before disease classification, FishGuard performs:
+
+1. Fish Image Validation using ResNet18
+2. Fish Detection using YOLOv8
+3. Fish Cropping
+4. Disease Classification
+
+This prevents incorrect predictions on non-fish images.
+
+---
+
+## Key Contributions
+
+- Developed custom fish disease classification architecture.
+- Integrated YOLOv8 for fish localization.
+- Implemented Grad-CAM for explainable predictions.
+- Added infected region highlighting.
+- Built complete ReactJS + FastAPI deployment pipeline.
+- Designed an automated fish disease diagnosis workflow.
 
 ---
 
 ## Future Enhancements
 
-- Real-Time Camera Detection
-- Mobile Application
-- Multi-Fish Detection
-- Disease Treatment Recommendation
-- Cloud Deployment
-- Disease Severity Analysis
+- Real-Time Webcam Detection
+- Mobile Application Deployment
+- Cloud-Based Prediction Service
+- Multi-Fish Detection Support
+- Disease Severity Estimation
+- Treatment Recommendation System
+- Aquaculture Analytics Dashboard
+
+---
+
+## ⚠️ Important Note
+
+The following files may not be included in the GitHub repository due to their large size:
+
+```text
+fish_disease_model.pth
+backend/yolov8n.pt
+data/fishdiseasedataset
+```
+
+To run the project successfully:
+
+1. Place `fish_disease_model.pth` in the project root directory.
+2. Place `yolov8n.pt` inside the backend folder.
+3. Download and place the dataset in:
+
+```text
+data/fishdiseasedataset
+```
 
 ---
 
 ## Author
 
-**Bhanu Prakash Sharma**
+### Bhanu Prakash Sharma
 
-B.Tech – Computer Science and Engineering
-
+B.Tech – Computer Science and Engineering  
 Artificial Intelligence & Machine Learning
 
 ---
 
-This project is developed for academic and research purposes.
+This project is developed for academic, educational and research purposes.
